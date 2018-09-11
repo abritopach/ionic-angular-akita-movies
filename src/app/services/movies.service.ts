@@ -6,7 +6,7 @@ import { v4 as uuid } from 'uuid';
 
 import { Movie } from '../models/movie.model';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class MoviesService {
 
   // private readonly URL_BASE: string = 'http://localhost:3000/';

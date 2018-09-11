@@ -26,3 +26,22 @@ export function createMovie({
     cast
   };
 }
+
+export type Genre =
+  | 'Action'
+  | 'Comedy'
+  | 'Crime'
+  | 'Documentary'
+  | 'Drama'
+  | 'Fantasy'
+  | 'Film noir'
+  | 'Horror'
+  | 'Romance'
+  | 'Science fiction'
+  | 'Westerns';
+
+
+export const genresList: Genre[] = ['Action', 'Comedy', 'Crime', 'Documentary', 'Drama', 'Fantasy', 'Film noir', 'Horror',
+ 'Romance', 'Science fiction', 'Westerns'];
+
+
