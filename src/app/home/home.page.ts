@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 
 import { Movie } from '../models/movie.model';
 import { MoviesQuery } from '../state/movie.query';
+import { MoviesStore } from '../state/movie.store';
 import { MoviesService } from '../services/movies.service';
 
 @Component({
@@ -17,19 +18,22 @@ export class HomePage implements OnInit {
   movies$: Observable<Movie[]>;
   iconView: String = 'apps';
 
-  constructor(private moviesQuery: MoviesQuery, private moviesService: MoviesService) {
+  constructor(private moviesStore: MoviesStore, private moviesQuery: MoviesQuery, private moviesService: MoviesService) {
     console.log('HomePage::constructor() | method called');
   }
 
   ngOnInit() {
-    console.log('ngOnInit::constructor() | method called');
+    console.log('HomePage::ngOnInit() | method called');
     this.movies$ = this.moviesQuery.selectAll();
     this.fetchMovies(0, 20);
   }
 
   fetchMovies(start: number, end: number) {
+    console.log('HomePage::fetchMovies() | method called');
     if (this.moviesQuery.isPristine) {
-      this.moviesService.getMovies(start, end);
+      this.moviesService.getMovies(start, end).subscribe(movies => {
+        this.moviesStore.set(movies);
+      });
     }
   }
 

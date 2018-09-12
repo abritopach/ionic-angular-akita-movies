@@ -6,13 +6,15 @@ import { v4 as uuid } from 'uuid';
 
 import { Movie } from '../models/movie.model';
 
+import { MoviesStore } from '../state/movie.store';
+
 @Injectable({ providedIn: 'root' })
 export class MoviesService {
 
   // private readonly URL_BASE: string = 'http://localhost:3000/';
-  private readonly URL_BASE: string = 'https://82fe86fd.ngrok.io/';
+  private readonly URL_BASE: string = 'https://2fb13137.ngrok.io/';
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private moviesStore: MoviesStore) {
   }
 
   getMovies(start: number, end: number): Observable<Movie[]> {
