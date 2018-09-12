@@ -2,6 +2,8 @@
 
 Sample project that shows how to build a Movies Catalog APP with Angular, Ionic 4, Capacitor and Akita (State Management).
 
+This project tries to replicate the functionalities developed in the project [Angular-Ionic-NGXS-Movies](https://github.com/abritopach/angular-ionic-ngxs-movies) but replacing the ngxs library with the akita library to practice my skills with the tech stack.
+
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.1.5.
 
 Technologies: Angular, Ionic, Capacitor, Akita, TypeScript.s
