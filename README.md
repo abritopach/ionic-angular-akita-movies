@@ -4,9 +4,26 @@ Sample project that shows how to build a Movies Catalog APP with Angular, Ionic 
 
 This project tries to replicate the functionalities developed in the project [Angular-Ionic-NGXS-Movies](https://github.com/abritopach/angular-ionic-ngxs-movies) but replacing the ngxs library with the akita library to practice my skills with the tech stack.
 
+This project shows you how to:
+
+    * Use Capacitor in Ionic 4. TODO
+    * Use Capacitor Youtube Player (Works on web, android and ios). TODO
+    * Use Akita for state management in Ionic 4. DONE!
+    * Show movies list. DONE!
+    * Show skeleton when the movies list is being downloaded. TODO
+    * Show movie detail. TODO
+    * CRUD operations: TODO
+        * Add movie.
+        * Update movie.
+        * Delete movie.
+    * Infinite scroll in movies list. TODO
+    * Use YouTube Data API to search movie trailer. TODO
+
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.1.5.
 
-Technologies: Angular, Ionic, Capacitor, Akita, TypeScript.s
+Technologies: Angular, Ionic, Capacitor, Akita, TypeScript
+
+![Technologies](readme_resources/technologies.jpg "Technologies")
 
 ## Development server
 
