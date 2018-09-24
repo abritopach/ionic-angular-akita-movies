@@ -41,6 +41,13 @@ export class HomePage implements OnInit {
   }
 
   viewMovieDetails(movie: Movie) {
+    // this.moviesStore.selectedMovie(movie);
+    /*
+    this.moviesStore.update(state => ({
+      selectedMovie: movie
+    }));
+    */
+    this.moviesStore.setActive(movie.id);
     this.router.navigateByUrl(`/detail`);
   }
 
