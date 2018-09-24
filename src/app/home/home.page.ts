@@ -7,6 +7,8 @@ import { MoviesQuery } from '../state/movie.query';
 import { MoviesStore } from '../state/movie.store';
 import { MoviesService } from '../services/movies.service';
 
+import { Router } from '@angular/router';
+
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
@@ -18,7 +20,8 @@ export class HomePage implements OnInit {
   movies$: Observable<Movie[]>;
   iconView: String = 'apps';
 
-  constructor(private moviesStore: MoviesStore, private moviesQuery: MoviesQuery, private moviesService: MoviesService) {
+  constructor(private moviesStore: MoviesStore, private moviesQuery: MoviesQuery, private moviesService: MoviesService,
+              private router: Router) {
     console.log('HomePage::constructor() | method called');
   }
 
@@ -35,6 +38,10 @@ export class HomePage implements OnInit {
         this.moviesStore.set(movies);
       });
     }
+  }
+
+  viewMovieDetails(movie: Movie) {
+    this.router.navigateByUrl(`/detail`);
   }
 
 }

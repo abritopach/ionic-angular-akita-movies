@@ -12,7 +12,7 @@ import { MoviesStore } from '../state/movie.store';
 export class MoviesService {
 
   // private readonly URL_BASE: string = 'http://localhost:3000/';
-  private readonly URL_BASE: string = 'https://2fb13137.ngrok.io/';
+  private readonly URL_BASE: string = 'https://c2a4dd87.ngrok.io/';
 
   constructor(private http: HttpClient, private moviesStore: MoviesStore) {
   }
