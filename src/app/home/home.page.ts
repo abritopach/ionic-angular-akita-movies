@@ -9,6 +9,10 @@ import { MoviesService } from '../services/movies.service';
 
 import { Router } from '@angular/router';
 
+import { InfiniteScroll, ModalController, PopoverController, LoadingController } from '@ionic/angular';
+
+import { MovieModalComponent } from '../modals/movie-modal/movie.modal';
+
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
@@ -21,7 +25,7 @@ export class HomePage implements OnInit {
   iconView: String = 'apps';
 
   constructor(private moviesStore: MoviesStore, private moviesQuery: MoviesQuery, private moviesService: MoviesService,
-              private router: Router) {
+              private router: Router, private modalCtrl: ModalController) {
     console.log('HomePage::constructor() | method called');
   }
 
@@ -49,6 +53,25 @@ export class HomePage implements OnInit {
     */
     this.moviesStore.setActive(movie.id);
     this.router.navigateByUrl(`/detail`);
+  }
+
+  async presentModal(componentProps: any) {
+    const modal = await this.modalCtrl.create({
+      component: MovieModalComponent,
+      componentProps: componentProps
+    });
+    await modal.present();
+
+    const {data} = await modal.onWillDismiss();
+    if (data) {
+      console.log('data', data);
+    }
+  }
+
+  addMovie() {
+    console.log('HomePage::addMovie() | method called');
+    const componentProps = { modalProps: { title: 'Add Movie', buttonText: 'Add Movie'}, option: 'add'};
+    this.presentModal(componentProps);
   }
 
 }
