@@ -8,6 +8,10 @@ import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms'
 import {default as iziToast, IziToastSettings} from 'izitoast';
 import { Observable } from 'rxjs';
 
+import { MoviesService } from '../../services/movies.service';
+
+import { MoviesStore } from '../../state/movie.store';
+
 @Component({
   selector: 'app-movie-modal',
   templateUrl: 'movie.modal.html',
@@ -39,9 +43,6 @@ export class MovieModalComponent implements OnInit, AfterViewInit {
 
   movieForm: FormGroup;
 
-  // Reads the name of the store from the store class.
-  movieForm$: Observable<Movie[]>;
-
   genres = [
     {id: 1, name: 'Action', image: 'assets/movies-genres/action.png'},
     {id: 2, name: 'Comedy', image: 'assets/movies-genres/comedy.png'},
@@ -57,7 +58,7 @@ export class MovieModalComponent implements OnInit, AfterViewInit {
 ];
 
   constructor(private formBuilder: FormBuilder, private modalCtrl: ModalController, public navParams: NavParams,
-              private renderer: Renderer2) {
+              private renderer: Renderer2, private moviesService: MoviesService, private moviesStore: MoviesStore) {
     this.emptyMovie = this.movie;
     this.createForm();
   }
@@ -80,7 +81,6 @@ export class MovieModalComponent implements OnInit, AfterViewInit {
     this.modal = { ...this.navParams.data.modalProps};
     if (this.navParams.data.option === 'edit') {
       // this.movie = { ...this.navParams.data.modalProps.movie };
-      this.movieForm.patchValue(this.navParams.data.modalProps.movie);
     }
   }
 
@@ -95,16 +95,20 @@ export class MovieModalComponent implements OnInit, AfterViewInit {
     // Using the injected ModalController this page
     // can "dismiss" itself and pass back data.
     // console.log('dismiss', data);
-    if (this.navParams.data.option === 'add') {
-    }
     this.modalCtrl.dismiss(data);
   }
 
   movieFormSubmit() {
+    console.log('MovieModalComponent::movieFormSubmit() | method called');
     this.movie = this.movieForm.value;
     this.movie.genre = this.movie.genre.toString();
     if (this.navParams.data.option === 'add') {
       console.log('movieFormSubmit add');
+      this.moviesService.addMovie(this.movie).subscribe(movie => {
+        console.log(movie);
+        this.moviesStore.add(movie);
+        this.dismiss();
+      });
     } else if (this.navParams.data.option === 'edit') {
       console.log('movieFormSubmit edit');
     }
