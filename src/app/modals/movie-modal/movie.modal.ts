@@ -55,7 +55,20 @@ export class MovieModalComponent implements OnInit, AfterViewInit {
     {id: 9, name: 'Romance', image: 'assets/movies-genres/romance.png'},
     {id: 10, name: 'Science fiction', image: 'assets/movies-genres/science fiction.png'},
     {id: 11, name: 'Westerns', image: 'assets/movies-genres/westerns.png'}
-];
+  ];
+
+  defaultIziToastSettings: IziToastSettings = {
+    color: 'green',
+    title: '',
+    icon: 'ico-success',
+    message: '',
+    position: 'bottomLeft',
+    transitionIn: 'flipInX',
+    transitionOut: 'flipOutX',
+    image: 'assets/avatar.png',
+    imageWidth: 70,
+    layout: 2,
+  };
 
   constructor(private formBuilder: FormBuilder, private modalCtrl: ModalController, public navParams: NavParams,
               private renderer: Renderer2, private moviesService: MoviesService, private moviesStore: MoviesStore) {
@@ -108,6 +121,10 @@ export class MovieModalComponent implements OnInit, AfterViewInit {
         console.log(movie);
         this.moviesStore.add(movie);
         this.dismiss();
+        /*
+        const newSettings: IziToastSettings = {title: 'Add movie', message: 'Movie added successfully.', position: 'bottomLeft'};
+        iziToast.show({...this.defaultIziToastSettings, ...newSettings});
+        */
       });
     } else if (this.navParams.data.option === 'edit') {
       console.log('movieFormSubmit edit');
