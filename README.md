@@ -11,11 +11,11 @@ This project shows you how to:
     * Use Akita for state management in Ionic 4. DONE!
     * Show movies list. DONE!
     * Show skeleton when the movies list is being downloaded. TODO
-    * Show movie detail. TODO
-    * CRUD operations: TODO
-        * Add movie.
-        * Update movie.
-        * Delete movie.
+    * Show movie detail. DONE!
+    * CRUD operations:
+        * Add movie.DONE!
+        * Update movie. TODO
+        * Delete movie. DONE!
     * Infinite scroll in movies list. TODO
     * Use YouTube Data API to search movie trailer. TODO
 

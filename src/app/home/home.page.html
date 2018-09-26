@@ -51,7 +51,7 @@
     <ion-list *ngIf="iconView === 'apps'">
     <!--<ion-item *ngFor="let movie of movies$ | async" detail="true" tappable routerLink="/detail/{{ movie.title }}">-->
     <!--<ion-item-sliding *ngFor="let movie of movies; let i = index">-->
-    <ion-item-sliding *ngFor="let movie of movies$ | async; let i = index">
+    <ion-item-sliding #slidingItem *ngFor="let movie of movies$ | async; let i = index">
       <ion-item tappable (click)="viewMovieDetails(movie)">
       <ion-thumbnail slot="start">
         <img [src]="movie.poster" alt="Movie Poster">
@@ -73,7 +73,7 @@
       <!-- Sliding options. -->
       <ion-item-options side="end">
         <ion-item-option class="round-button" color="primary" (click)="editMovie(movie, i)"><ion-icon name="create"></ion-icon></ion-item-option>
-        <ion-item-option class="round-button" color="danger" (click)="deleteMovie(movie)"><ion-icon name="trash"></ion-icon></ion-item-option>
+        <ion-item-option class="round-button" color="danger" (click)="deleteMovie(movie, slidingItem)"><ion-icon name="trash"></ion-icon></ion-item-option>
       </ion-item-options>
     </ion-item-sliding>
   </ion-list>

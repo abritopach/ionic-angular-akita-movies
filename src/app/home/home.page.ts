@@ -9,9 +9,11 @@ import { MoviesService } from '../services/movies.service';
 
 import { Router } from '@angular/router';
 
-import { InfiniteScroll, ModalController, PopoverController, LoadingController } from '@ionic/angular';
+import { InfiniteScroll, ModalController, PopoverController, LoadingController, ItemSliding } from '@ionic/angular';
 
 import { MovieModalComponent } from '../modals/movie-modal/movie.modal';
+
+import {default as iziToast, IziToastSettings} from 'izitoast';
 
 @Component({
   selector: 'app-home',
@@ -23,6 +25,19 @@ export class HomePage implements OnInit {
   currentYear = new Date().getFullYear();
   movies$: Observable<Movie[]>;
   iconView: String = 'apps';
+
+  defaultIziToastSettings: IziToastSettings = {
+    color: 'green',
+    title: '',
+    icon: 'ico-success',
+    message: '',
+    position: 'bottomLeft',
+    transitionIn: 'flipInX',
+    transitionOut: 'flipOutX',
+    image: 'assets/avatar.png',
+    imageWidth: 70,
+    layout: 2,
+  };
 
   constructor(private moviesStore: MoviesStore, private moviesQuery: MoviesQuery, private moviesService: MoviesService,
               private router: Router, private modalCtrl: ModalController) {
@@ -72,6 +87,17 @@ export class HomePage implements OnInit {
     console.log('HomePage::addMovie() | method called');
     const componentProps = { modalProps: { title: 'Add Movie', buttonText: 'Add Movie'}, option: 'add'};
     this.presentModal(componentProps);
+  }
+
+  deleteMovie(movie: Movie, slidingItem: ItemSliding) {
+    console.log('HomePage::deleteMovie() | method called');
+    this.moviesStore.remove(movie.id);
+    slidingItem.close();
+    this.moviesService.deleteMovie(movie).subscribe(result => {
+      console.log(result);
+      const newSettings: IziToastSettings = {title: 'Delete movie', message: 'Movie deleted successfully.', position: 'bottomLeft'};
+      iziToast.success({...this.defaultIziToastSettings, ...newSettings});
+    });
   }
 
 }
