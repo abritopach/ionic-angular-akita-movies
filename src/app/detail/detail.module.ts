@@ -7,6 +7,8 @@ import { IonicModule } from '@ionic/angular';
 
 import { DetailPage } from './detail.page';
 
+import { YoutubeModalComponent } from '../modals/youtube-modal/youtube.modal';
+
 const routes: Routes = [
   {
     path: '',
@@ -21,6 +23,7 @@ const routes: Routes = [
     IonicModule,
     RouterModule.forChild(routes)
   ],
-  declarations: [DetailPage]
+  declarations: [DetailPage, YoutubeModalComponent],
+  entryComponents: [YoutubeModalComponent]
 })
 export class DetailPageModule {}

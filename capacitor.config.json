@@ -1,0 +1,6 @@
+{
+  "appId": "com.akitamovies.app",
+  "appName": "ionic-angular-akita-movies",
+  "bundledWebRuntime": false,
+  "webDir": "www"
+}

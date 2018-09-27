@@ -13,6 +13,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { AkitaNgDevtools } from '@datorama/akita-ngdevtools';
 import { environment } from '../environments/environment';
 
+import { YoutubeApiService } from './services/youtube-api-service';
+
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
@@ -21,7 +23,8 @@ import { environment } from '../environments/environment';
   providers: [
     StatusBar,
     SplashScreen,
-    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+    YoutubeApiService
   ],
   bootstrap: [AppComponent]
 })
