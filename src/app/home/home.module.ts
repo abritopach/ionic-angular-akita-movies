@@ -7,8 +7,11 @@ import { RouterModule } from '@angular/router';
 import { HomePage } from './home.page';
 
 import { MovieModalComponent } from '../modals/movie-modal/movie.modal';
+import { FilterMoviePopoverComponent } from '../popovers/filter-movie.popover';
 
 import { NgSelectModule } from '@ng-select/ng-select';
+
+import { StarRatingModule } from 'angular-star-rating';
 
 @NgModule({
   imports: [
@@ -22,9 +25,10 @@ import { NgSelectModule } from '@ng-select/ng-select';
         path: '',
         component: HomePage
       }
-    ])
+    ]),
+    StarRatingModule.forRoot()
   ],
-  declarations: [HomePage, MovieModalComponent],
-  entryComponents: [MovieModalComponent]
+  declarations: [HomePage, MovieModalComponent, FilterMoviePopoverComponent],
+  entryComponents: [MovieModalComponent, FilterMoviePopoverComponent]
 })
 export class HomePageModule {}

@@ -12,6 +12,7 @@ import { Router } from '@angular/router';
 import { InfiniteScroll, ModalController, PopoverController, LoadingController, ItemSliding } from '@ionic/angular';
 
 import { MovieModalComponent } from '../modals/movie-modal/movie.modal';
+import { FilterMoviePopoverComponent } from '../popovers/filter-movie.popover';
 
 import {default as iziToast, IziToastSettings} from 'izitoast';
 
@@ -40,7 +41,7 @@ export class HomePage implements OnInit {
   };
 
   constructor(private moviesStore: MoviesStore, private moviesQuery: MoviesQuery, private moviesService: MoviesService,
-              private router: Router, private modalCtrl: ModalController) {
+              private router: Router, private modalCtrl: ModalController, private popoverCtrl: PopoverController) {
     console.log('HomePage::constructor() | method called');
   }
 
@@ -108,6 +109,23 @@ export class HomePage implements OnInit {
     console.log('HomePage::editMovie() | method called');
     const componentProps = { modalProps: { title: 'Edit Movie', buttonText: 'Edit Movie', movie: movie}, option: 'edit'};
     this.presentModal(componentProps, slidingItem);
+  }
+
+  async presentPopover(event) {
+    // console.log('presentPopover');
+    const popover = await this.popoverCtrl.create({
+      component: FilterMoviePopoverComponent,
+      event: event
+    });
+
+    await popover.present();
+
+    const { data } = await popover.onWillDismiss();
+
+    if (data) {
+      console.log('data popover.onWillDismiss', data);
+    }
+
   }
 
 }
