@@ -70,7 +70,7 @@ export class HomePage implements OnInit {
     this.router.navigateByUrl(`/detail`);
   }
 
-  async presentModal(componentProps: any) {
+  async presentModal(componentProps: any, slidingItem?: ItemSliding) {
     const modal = await this.modalCtrl.create({
       component: MovieModalComponent,
       componentProps: componentProps
@@ -78,8 +78,12 @@ export class HomePage implements OnInit {
     await modal.present();
 
     const {data} = await modal.onWillDismiss();
+    console.log('presentModal', data);
     if (data) {
       console.log('data', data);
+      if (data.option === 'edit') {
+        slidingItem.close();
+      }
     }
   }
 
@@ -98,6 +102,12 @@ export class HomePage implements OnInit {
       const newSettings: IziToastSettings = {title: 'Delete movie', message: 'Movie deleted successfully.', position: 'bottomLeft'};
       iziToast.success({...this.defaultIziToastSettings, ...newSettings});
     });
+  }
+
+  editMovie(movie: Movie, slidingItem: ItemSliding) {
+    console.log('HomePage::editMovie() | method called');
+    const componentProps = { modalProps: { title: 'Edit Movie', buttonText: 'Edit Movie', movie: movie}, option: 'edit'};
+    this.presentModal(componentProps, slidingItem);
   }
 
 }

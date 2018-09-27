@@ -79,7 +79,6 @@ export class MovieModalComponent implements OnInit, AfterViewInit {
   createForm() {
     this.movieForm = this.formBuilder.group({
       id: '',
-      index: 0,
       title: new FormControl('', Validators.required),
       year: new FormControl(new Date().getFullYear(), Validators.required),
       director: new FormControl(''),
@@ -93,7 +92,7 @@ export class MovieModalComponent implements OnInit, AfterViewInit {
   ngOnInit() {
     this.modal = { ...this.navParams.data.modalProps};
     if (this.navParams.data.option === 'edit') {
-      // this.movie = { ...this.navParams.data.modalProps.movie };
+      this.movieForm.patchValue(this.navParams.data.modalProps.movie);
     }
   }
 
@@ -120,14 +119,19 @@ export class MovieModalComponent implements OnInit, AfterViewInit {
       this.moviesService.addMovie(this.movie).subscribe(movie => {
         console.log(movie);
         this.moviesStore.add(movie);
-        this.dismiss();
-        /*
+        this.dismiss({option: 'add'});
         const newSettings: IziToastSettings = {title: 'Add movie', message: 'Movie added successfully.', position: 'bottomLeft'};
         iziToast.show({...this.defaultIziToastSettings, ...newSettings});
-        */
       });
     } else if (this.navParams.data.option === 'edit') {
       console.log('movieFormSubmit edit');
+        this.moviesService.editMovie(this.movie).subscribe(movie => {
+          console.log(movie);
+          this.moviesStore.update(movie.id, movie);
+          this.dismiss({option: 'edit'});
+          const newSettings: IziToastSettings = {title: 'Edit movie', message: 'Movie updated successfully.', position: 'bottomLeft'};
+          iziToast.success({...this.defaultIziToastSettings, ...newSettings});
+        });
     }
   }
 

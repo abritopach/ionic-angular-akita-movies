@@ -12,7 +12,7 @@
 </ion-header>
       
 <ion-content class="outer-content" padding>
-    <form [formGroup]="movieForm" novalidate ngxsForm="catalog.movieForm" (ngSubmit)="movieFormSubmit()">
+    <form [formGroup]="movieForm" novalidate (ngSubmit)="movieFormSubmit()">
     <ion-list inset>
         <ion-item [class.has-error]="movieForm.get('title').hasError('required') && movieForm.get('title').touched">
           <ion-label position="floating">Title *</ion-label>
