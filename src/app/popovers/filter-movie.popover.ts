@@ -1,9 +1,14 @@
+import { MoviesStore } from './../state/movie.store';
 import { Component, ViewEncapsulation, OnInit, OnDestroy, NgZone } from '@angular/core';
 import { PopoverController } from '@ionic/angular';
 
 import { Observable } from 'rxjs';
 
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
+
+import { MoviesService } from '../services/movies.service';
+
+import { MoviesStore } from '../state/movie.store';
 
 @Component({
   selector: 'app-filter-movie-popover',
@@ -17,17 +22,6 @@ export class FilterMoviePopoverComponent implements OnInit, OnDestroy {
     lower: 1900,
     upper: new Date().getFullYear()
   };
-
-  /*
-  filters: any = {
-    years: {
-      lower: 1900,
-      upper: new Date().getFullYear()
-    },
-    genre: 'Action',
-    rating: 0
-  };
-  */
 
   filterForm: FormGroup;
 
@@ -50,15 +44,19 @@ export class FilterMoviePopoverComponent implements OnInit, OnDestroy {
     {id: 11, name: 'Westerns', image: 'assets/movies-genres/westerns.png'}
 ];
 
-  constructor(private popoverCtrl: PopoverController, private zone: NgZone, private formBuilder: FormBuilder) {
+  constructor(private popoverCtrl: PopoverController, private zone: NgZone, private formBuilder: FormBuilder,
+    private moviesService: MoviesService, private moviesStore: MoviesStore) {
     this.createForm();
   }
 
   createForm() {
     this.filterForm = this.formBuilder.group({
-      rate: new FormControl(''),
-      years: new FormControl(''),
-      genre: new FormControl('')
+      rate: new FormControl(0),
+      years: new FormControl({
+        lower: 1900,
+        upper: new Date().getFullYear()
+    }),
+      genre: new FormControl('Action')
     });
   }
 
@@ -70,6 +68,11 @@ export class FilterMoviePopoverComponent implements OnInit, OnDestroy {
 
   filterMovies() {
     console.log(this.filterForm.value);
+    this.moviesService.filterMovies(this.filterForm.value).subscribe(movies => {
+        console.log(movies);
+        this.moviesStore.set(movies);
+    });
+
     this.popoverCtrl.dismiss();
   }
 
