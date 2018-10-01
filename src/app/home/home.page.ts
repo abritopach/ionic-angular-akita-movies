@@ -40,6 +40,8 @@ export class HomePage implements OnInit {
     layout: 2,
   };
 
+  showSkeleton: Boolean = true;
+
   constructor(private moviesStore: MoviesStore, private moviesQuery: MoviesQuery, private moviesService: MoviesService,
               private router: Router, private modalCtrl: ModalController, private popoverCtrl: PopoverController) {
     console.log('HomePage::constructor() | method called');
@@ -55,6 +57,9 @@ export class HomePage implements OnInit {
     console.log('HomePage::fetchMovies() | method called');
     if (this.moviesQuery.isPristine) {
       this.moviesService.getMovies(start, end).subscribe(movies => {
+        setTimeout( () => {
+          this.showSkeleton = false;
+        }, 2000);
         this.moviesStore.set(movies);
       });
     }

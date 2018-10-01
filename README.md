@@ -6,18 +6,18 @@ This project tries to replicate the functionalities developed in the project [An
 
 This project shows you how to:
 
-    * Use Capacitor in Ionic 4. TODO
-    * Use Capacitor Youtube Player (Works on web, android and ios). TODO
+    * Use Capacitor in Ionic 4. DONE!
+    * Use Capacitor Youtube Player (Works on web, android and ios). DONE!
     * Use Akita for state management in Ionic 4. DONE!
     * Show movies list. DONE!
-    * Show skeleton when the movies list is being downloaded. TODO
+    * Show skeleton when the movies list is being downloaded. DONE!
     * Show movie detail. DONE!
     * CRUD operations:
         * Add movie.DONE!
-        * Update movie. TODO
+        * Update movie. DONE!
         * Delete movie. DONE!
     * Infinite scroll in movies list. TODO
-    * Use YouTube Data API to search movie trailer. TODO
+    * Use YouTube Data API to search movie trailer. DONE!
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.1.5.
 

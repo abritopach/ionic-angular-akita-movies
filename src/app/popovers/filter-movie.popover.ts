@@ -1,4 +1,3 @@
-import { MoviesStore } from './../state/movie.store';
 import { Component, ViewEncapsulation, OnInit, OnDestroy, NgZone } from '@angular/core';
 import { PopoverController } from '@ionic/angular';
 
