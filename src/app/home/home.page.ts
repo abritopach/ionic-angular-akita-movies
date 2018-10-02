@@ -162,9 +162,14 @@ export class HomePage implements OnInit {
 
   showFavoritesMovies() {
     console.log('HomePage::showFavoritesMovies() | method called');
-    // const state = JSON.parse(localStorage.getItem('@@STATE'));
-    const state = '';
-    const componentProps = { modalProps: { title: 'Favorites Movies', favoritesMovies: state}};
+
+    let favorites = [];
+    if (localStorage.getItem('favorites') !== null) {
+      favorites = JSON.parse(localStorage.getItem('favorites'));
+    }
+    localStorage.setItem('favorites', JSON.stringify(favorites));
+
+    const componentProps = { modalProps: { title: 'Favorites Movies', favoritesMovies: favorites}};
     this.presentFavoritesModal(componentProps);
   }
 

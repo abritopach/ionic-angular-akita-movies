@@ -34,19 +34,20 @@ export class FavoritesMoviesModalComponent implements OnInit {
   }
 
   viewMovieDetails(movie: Movie) {
-    // console.log('viewMovieDetails', movie);
-    this.router.navigateByUrl(`/detail`);
-    this.modalCtrl.dismiss();
+    console.log('viewMovieDetails', movie);
+    // this.router.navigateByUrl(`/detail`);
+    // this.modalCtrl.dismiss();
   }
 
   deleteFavoriteMovie(movie: Movie) {
     console.log('FavoritesMoviesModalComponent::deleteFavoriteMovie() | method called');
-    this.modal.favoritesMovies = this.modal.favoritesMovies.filter(m => m.title !== movie.title);
+    // this.modal.favoritesMovies = this.modal.favoritesMovies.filter(m => m.title !== movie.title);
   }
 
   deleteAll() {
     console.log('FavoritesMoviesModalComponent::deleteAll() | method called');
     this.modal.favoritesMovies = [];
+    localStorage.removeItem('favorites');
   }
 
   async presentAlertConfirm() {

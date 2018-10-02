@@ -22,6 +22,18 @@ export class DetailPage implements OnInit {
 
   movie: Movie;
   videoId: string;
+  defaultIziToastSettings: IziToastSettings = {
+    color: 'green',
+    title: '',
+    icon: 'ico-success',
+    message: '',
+    position: 'bottomLeft',
+    transitionIn: 'flipInX',
+    transitionOut: 'flipOutX',
+    image: 'assets/avatar.png',
+    imageWidth: 70,
+    layout: 2,
+  };
 
   constructor(private moviesQuery: MoviesQuery, private youtubeApiService: YoutubeApiService, private modalCtrl: ModalController) { }
 
@@ -93,6 +105,18 @@ export class DetailPage implements OnInit {
 
     const options = {width: 640, height: 360, videoId: this.movie.videoId};
     const playerReady = await YoutubePlayer.initialize(options);
+  }
+
+  onClickFavorite() {
+    console.log('DetailsPage::onClickFavorite | method called');
+    const newSettings: IziToastSettings = {title: 'Favorite movie', message: 'Favorite Movie added.', position: 'bottomLeft'};
+    iziToast.success({...this.defaultIziToastSettings, ...newSettings});
+    let favorites = [];
+    if (localStorage.getItem('favorites') !== null) {
+      favorites = JSON.parse(localStorage.getItem('favorites'));
+    }
+    favorites.push(this.movie);
+    localStorage.setItem('favorites', JSON.stringify(favorites));
   }
 
 }
