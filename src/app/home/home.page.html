@@ -98,7 +98,6 @@
   </ion-list>
 
   <!-- Movies Grid view. -->
-  <!--
   <ion-grid *ngIf="iconView === 'list'">
       <ion-row>
           <ion-col align-self-center size="6" *ngFor="let movie of movies$ | async; let i = index">
@@ -118,10 +117,8 @@
           </ion-col>
       </ion-row>
     </ion-grid>
-    -->
 
   <!-- Skeleton Grid. -->
-  <!--
   <ion-grid *ngIf="showSkeleton && iconView === 'list'">
     <ion-row>
         <ion-col align-self-center size="6" *ngFor="let number of [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19]">
@@ -141,7 +138,6 @@
         </ion-col>
     </ion-row>
   </ion-grid>
-  -->
 
   <!-- Infinite Scroll. -->
   <ion-infinite-scroll #infiniteScroll id="infinite-scroll" threshold="100px" (ionInfinite)="doInfinite()">

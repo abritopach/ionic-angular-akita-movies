@@ -154,4 +154,9 @@ export class HomePage implements OnInit {
     this.fetchMovies(this.start, this.end);
   }
 
+  changeView() {
+    console.log('HomePage::changeView() | method called');
+    this.iconView =  this.iconView === 'apps' ? 'list' : 'apps';
+  }
+
 }
