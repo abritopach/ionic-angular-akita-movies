@@ -34,6 +34,14 @@
    opacity: 0.5;
 }
 
+@keyframes shine {
+    to {
+        background-position:
+            120% 0, /* move highlight to right */
+            0 0
+    }
+}
+
 .notes {
     color: rgb(131, 127, 127);
 }

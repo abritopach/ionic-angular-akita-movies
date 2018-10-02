@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
@@ -9,7 +9,7 @@ import { MoviesService } from '../services/movies.service';
 
 import { Router } from '@angular/router';
 
-import { InfiniteScroll, ModalController, PopoverController, LoadingController, ItemSliding } from '@ionic/angular';
+import { ModalController, PopoverController, LoadingController, ItemSliding, InfiniteScroll } from '@ionic/angular';
 
 import { MovieModalComponent } from '../modals/movie-modal/movie.modal';
 import { FilterMoviePopoverComponent } from '../popovers/filter-movie.popover';
@@ -41,6 +41,10 @@ export class HomePage implements OnInit {
   };
 
   showSkeleton: Boolean = true;
+  start: number;
+  end: number;
+  showScrollTop: Boolean = false;
+  @ViewChild('infiniteScroll') infiniteScroll: InfiniteScroll;
 
   constructor(private moviesStore: MoviesStore, private moviesQuery: MoviesQuery, private moviesService: MoviesService,
               private router: Router, private modalCtrl: ModalController, private popoverCtrl: PopoverController) {
@@ -50,19 +54,27 @@ export class HomePage implements OnInit {
   ngOnInit() {
     console.log('HomePage::ngOnInit() | method called');
     this.movies$ = this.moviesQuery.selectAll();
-    this.fetchMovies(0, 20);
+    this.start = 0;
+    this.end = 20;
+    this.fetchMovies(this.start, 20);
   }
 
   fetchMovies(start: number, end: number) {
     console.log('HomePage::fetchMovies() | method called');
-    if (this.moviesQuery.isPristine) {
+    // if (this.moviesQuery.isPristine) {
       this.moviesService.getMovies(start, end).subscribe(movies => {
+        console.log('movies', movies);
         setTimeout( () => {
           this.showSkeleton = false;
         }, 2000);
-        this.moviesStore.set(movies);
+        console.log(this.infiniteScroll);
+        if (this.infiniteScroll) {
+          this.infiniteScroll.complete();
+        }
+        // this.moviesStore.set(movies);
+        this.moviesStore.add(movies);
       });
-    }
+    // }
   }
 
   viewMovieDetails(movie: Movie) {
@@ -131,6 +143,15 @@ export class HomePage implements OnInit {
       console.log('data popover.onWillDismiss', data);
     }
 
+  }
+
+  doInfinite() {
+    // console.log('Begin async operation');
+    this.showSkeleton = true;
+    this.start = this.end;
+    this.end += 20;
+    this.showScrollTop = true;
+    this.fetchMovies(this.start, this.end);
   }
 
 }
