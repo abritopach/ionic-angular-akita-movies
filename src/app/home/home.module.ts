@@ -8,6 +8,7 @@ import { HomePage } from './home.page';
 
 import { MovieModalComponent } from '../modals/movie-modal/movie.modal';
 import { FilterMoviePopoverComponent } from '../popovers/filter-movie.popover';
+import { FavoritesMoviesModalComponent } from '../modals/favorites-movies-modal/favorites.movies.modal';
 
 import { NgSelectModule } from '@ng-select/ng-select';
 
@@ -28,7 +29,7 @@ import { StarRatingModule } from 'angular-star-rating';
     ]),
     StarRatingModule.forRoot()
   ],
-  declarations: [HomePage, MovieModalComponent, FilterMoviePopoverComponent],
-  entryComponents: [MovieModalComponent, FilterMoviePopoverComponent]
+  declarations: [HomePage, MovieModalComponent, FilterMoviePopoverComponent, FavoritesMoviesModalComponent],
+  entryComponents: [MovieModalComponent, FilterMoviePopoverComponent, FavoritesMoviesModalComponent]
 })
 export class HomePageModule {}
