@@ -6,6 +6,7 @@ import { MoviesQuery } from '../state/movie.query';
 import { MoviesStore } from '../state/movie.store';
 
 import { YoutubeApiService } from '../services/youtube-api-service';
+import { MoviesService } from '../services/movies.service';
 
 import { Plugins, Capacitor } from '@capacitor/core';
 
@@ -36,7 +37,7 @@ export class DetailPage implements OnInit {
   };
 
   constructor(private moviesQuery: MoviesQuery, private youtubeApiService: YoutubeApiService, private modalCtrl: ModalController,
-              private moviesStore: MoviesStore) { }
+              private moviesStore: MoviesStore, private moviesService: MoviesService) { }
 
   ngOnInit() {
     console.log('DetailPage::ngOnInit() | method called');
@@ -129,6 +130,10 @@ export class DetailPage implements OnInit {
     // moviesQuery.getActive()likes += 1;
     this.moviesStore.update(this.moviesQuery.getActive().id, {
       likes: this.moviesQuery.getActive().likes + 1
+    });
+
+    this.moviesService.editMovie(this.moviesQuery.getActive()).subscribe(movie => {
+      console.log('movie', movie);
     });
   }
 
