@@ -9,7 +9,7 @@ import { MoviesService } from '../services/movies.service';
 
 import { Router } from '@angular/router';
 
-import { ModalController, PopoverController, LoadingController, ItemSliding, InfiniteScroll } from '@ionic/angular';
+import { ModalController, PopoverController, LoadingController, ItemSliding, InfiniteScroll, Content } from '@ionic/angular';
 
 import { MovieModalComponent } from '../modals/movie-modal/movie.modal';
 import { FilterMoviePopoverComponent } from '../popovers/filter-movie.popover';
@@ -46,6 +46,7 @@ export class HomePage implements OnInit {
   end: number;
   showScrollTop: Boolean = false;
   @ViewChild('infiniteScroll') infiniteScroll: InfiniteScroll;
+  @ViewChild(Content) content: Content;
 
   constructor(private moviesStore: MoviesStore, private moviesQuery: MoviesQuery, private moviesService: MoviesService,
               private router: Router, private modalCtrl: ModalController, private popoverCtrl: PopoverController) {
@@ -184,6 +185,10 @@ export class HomePage implements OnInit {
     if (data) {
       console.log('data', data);
     }
+  }
+
+  scrollToTop() {
+    this.content.scrollToTop();
   }
 
 }

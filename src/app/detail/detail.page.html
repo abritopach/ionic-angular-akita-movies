@@ -12,42 +12,42 @@
       <ion-grid fixed>
         <ion-row align-items-stretch>
         <ion-col col-12 align-self-stretch align-self-center>
-          <ion-card *ngIf="movie">
+          <ion-card *ngIf="moviesQuery.getActive()">
               <ion-item>
-                <h2><b>{{ movie?.title }}</b></h2>
+                <h2><b>{{ moviesQuery.getActive()?.title }}</b></h2>
                 <ion-chip color="tertiary" slot="end">
-                  <ion-icon *ngIf="!movie.genreImage" name="pricetag" color="tertiary"></ion-icon>
-                  <ion-img *ngIf="movie.genreImage" [src]="movie.genreImage" class="genre-image"></ion-img>
-                  <ion-label>{{ movie?.genre }}</ion-label>
+                  <ion-icon *ngIf="!moviesQuery.getActive().genreImage" name="pricetag" color="tertiary"></ion-icon>
+                  <ion-img *ngIf="moviesQuery.getActive().genreImage" [src]="moviesQuery.getActive().genreImage" class="genre-image"></ion-img>
+                  <ion-label>{{ moviesQuery.getActive()?.genre }}</ion-label>
                 </ion-chip>
               </ion-item>
               <ion-item class="image">
-                  <img *ngIf="movie.poster" [src]="movie?.poster" height="300px" alt="Movie Poster Detail Page">
-                  <img *ngIf="!movie.poster" src="https://in.bmscdn.com/iedb/movies/images/website/poster/large/ela-cheppanu-et00016781-24-03-2017-18-31-40.jpg" height="300px" alt="Empty Movie Poster Detail Page">
+                  <img *ngIf="moviesQuery.getActive().poster" [src]="moviesQuery.getActive()?.poster" height="300px" alt="Movie Poster Detail Page">
+                  <img *ngIf="!moviesQuery.getActive().poster" src="https://in.bmscdn.com/iedb/movies/images/website/poster/large/ela-cheppanu-et00016781-24-03-2017-18-31-40.jpg" height="300px" alt="Empty Movie Poster Detail Page">
               </ion-item>
               <ion-card-content>
                 <ion-item>
-                  <p><ion-icon name="information-circle-outline"></ion-icon> {{ movie?.notes }}</p>
+                  <p><ion-icon name="information-circle-outline"></ion-icon> {{ moviesQuery.getActive()?.notes }}</p>
                   <ion-badge slot="end" (click)="watchTrailer()"><ion-icon name="eye"></ion-icon> Trailer</ion-badge>
                 </ion-item>
                 <ion-row>
                   <ion-item>
-                    <p><ion-icon name="people"></ion-icon> {{ movie?.cast }}</p>
+                    <p><ion-icon name="people"></ion-icon> {{ moviesQuery.getActive()?.cast }}</p>
                   </ion-item>
                 </ion-row>
               </ion-card-content>
               <ion-row>
                 <ion-item style="width: 100%">
-                  <ion-button icon-left clear small class="action-button" *ngIf="movie.likes !== undefined">
+                  <ion-button icon-left clear small class="action-button" *ngIf="moviesQuery.getActive().likes !== undefined">
                     <ion-icon name="thumbs-up"></ion-icon>
-                    <div>{{ movie?.likes }} Likes</div>
+                    <div>{{ moviesQuery.getActive()?.likes }} Likes</div>
                   </ion-button>
-                  <ion-button icon-left clear small *ngIf="movie.comments !== undefined" (click)="onClickShowComment()">
+                  <ion-button icon-left clear small *ngIf="moviesQuery.getActive().comments !== undefined" (click)="onClickShowComment()">
                     <ion-icon name="text"></ion-icon>
-                    <div>{{ movie?.comments.length }} Comments</div>
+                    <div>{{ moviesQuery.getActive()?.comments.length }} Comments</div>
                   </ion-button>
                   <ion-note slot="end">
-                    {{ movie?.year }} <ion-icon name='calendar' slot="start"></ion-icon>
+                    {{ moviesQuery.getActive()?.year }} <ion-icon name='calendar' slot="start"></ion-icon>
                   </ion-note>
                 </ion-item>
               </ion-row>

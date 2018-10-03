@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { Movie } from '../models/movie.model';
 
 import { MoviesQuery } from '../state/movie.query';
+import { MoviesStore } from '../state/movie.store';
 
 import { YoutubeApiService } from '../services/youtube-api-service';
 
@@ -20,7 +21,6 @@ import { YoutubeModalComponent } from '../modals/youtube-modal/youtube.modal';
 })
 export class DetailPage implements OnInit {
 
-  movie: Movie;
   videoId: string;
   defaultIziToastSettings: IziToastSettings = {
     color: 'green',
@@ -35,19 +35,18 @@ export class DetailPage implements OnInit {
     layout: 2,
   };
 
-  constructor(private moviesQuery: MoviesQuery, private youtubeApiService: YoutubeApiService, private modalCtrl: ModalController) { }
+  constructor(private moviesQuery: MoviesQuery, private youtubeApiService: YoutubeApiService, private modalCtrl: ModalController,
+              private moviesStore: MoviesStore) { }
 
   ngOnInit() {
     console.log('DetailPage::ngOnInit() | method called');
-    console.log(this.moviesQuery.getActive());
-    this.movie = this.moviesQuery.getActive();
   }
 
   watchTrailer() {
     console.log('DetailsPage::watchTrailer | method called');
 
     // Code to use Youtube Api Service: providers/youtube-api-service.ts
-    this.youtubeApiService.searchMovieTrailer(this.movie.title)
+    this.youtubeApiService.searchMovieTrailer(this.moviesQuery.getActive().title)
     .subscribe(result => {
       if (result.items.length > 0) {
         console.log(result);
@@ -82,8 +81,8 @@ export class DetailPage implements OnInit {
   }
 
   async presentModal() {
-    console.log('DetailsPage::presentModal | method called -> movie', this.movie);
-    const componentProps = { modalProps: { item: this.movie, videoId: this.videoId}};
+    console.log('DetailsPage::presentModal | method called -> movie', this.moviesQuery.getActive());
+    const componentProps = { modalProps: { item: this.moviesQuery.getActive(), videoId: this.videoId}};
     const modal = await this.modalCtrl.create({
       component: YoutubeModalComponent,
       componentProps: componentProps
@@ -103,7 +102,7 @@ export class DetailPage implements OnInit {
     const result = await YoutubePlayer.echo({value: 'hola' });
     console.log('result', result);
 
-    const options = {width: 640, height: 360, videoId: this.movie.videoId};
+    const options = {width: 640, height: 360, videoId: this.moviesQuery.getActive().videoId};
     const playerReady = await YoutubePlayer.initialize(options);
   }
 
@@ -115,8 +114,22 @@ export class DetailPage implements OnInit {
     if (localStorage.getItem('favorites') !== null) {
       favorites = JSON.parse(localStorage.getItem('favorites'));
     }
-    favorites.push(this.movie);
+    favorites.push(this.moviesQuery.getActive());
     localStorage.setItem('favorites', JSON.stringify(favorites));
+  }
+
+  onClickLike() {
+    console.log('DetailsPage::onClickLike | method called');
+    if (typeof this.moviesQuery.getActive().likes === 'undefined') {
+      this.moviesStore.update(this.moviesQuery.getActive().id, {
+        likes: 0
+      });
+    }
+    console.log(this.moviesQuery.getActive().likes);
+    // moviesQuery.getActive()likes += 1;
+    this.moviesStore.update(this.moviesQuery.getActive().id, {
+      likes: this.moviesQuery.getActive().likes + 1
+    });
   }
 
 }
