@@ -61,18 +61,19 @@ export class HomePage implements OnInit {
   }
 
   ionViewWillEnter() {
-    console.log('ionViewWillEnter');
+    console.log('HomePage::ionViewWillEnter | method called');
     this.searchControl.valueChanges.pipe(debounceTime(700)).subscribe(search => {
-      // console.log('this.searchControl.valueChanges', search);
-      this.searching = false;
+      this.searching = true;
       if (search === '') {
+        console.log('search is empty');
         this.start = 0;
         this.end = 20;
         this.fetchMovies(this.start, this.end);
       } else {
-        // this.store.dispatch(new SearchMovies({queryText: search}));
+        console.log('search is not empty');
         this.moviesService.searchMovies(search).subscribe(movies => {
           console.log('movies', movies);
+          this.moviesStore.set(movies);
         });
       }
     });
@@ -94,6 +95,7 @@ export class HomePage implements OnInit {
 
   cancelSearch(ev: any) {
     console.log('HomePage::cancelSearch | method called');
+    this.searching = false;
   }
 
   fetchMovies(start: number, end: number) {
@@ -108,8 +110,13 @@ export class HomePage implements OnInit {
         if (this.infiniteScroll) {
           this.infiniteScroll.complete();
         }
-        // this.moviesStore.set(movies);
-        this.moviesStore.add(movies);
+        console.log('this.searching', this.searching);
+        if (this.searching) {
+          this.moviesStore.set(movies);
+          this.searching = false;
+        } else {
+          this.moviesStore.add(movies);
+        }
       });
     // }
   }
@@ -184,11 +191,13 @@ export class HomePage implements OnInit {
 
   doInfinite() {
     // console.log('Begin async operation');
-    this.showSkeleton = true;
-    this.start = this.end;
-    this.end += 20;
-    this.showScrollTop = true;
-    this.fetchMovies(this.start, this.end);
+    if (!this.searching) {
+      this.showSkeleton = true;
+      this.start = this.end;
+      this.end += 20;
+      this.showScrollTop = true;
+      this.fetchMovies(this.start, this.end);
+    }
   }
 
   changeView() {
