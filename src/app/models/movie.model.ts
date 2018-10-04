@@ -13,6 +13,7 @@ export interface Movie {
     genreImage: string | null;
     likes: number | 0;
     rate: number | 0;
+    numVotes: number | 0;
 }
 ​
 export function createMovie({

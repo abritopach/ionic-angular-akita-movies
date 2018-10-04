@@ -14,6 +14,8 @@ import {default as iziToast, IziToastSettings} from 'izitoast';
 
 import { ModalController } from '@ionic/angular';
 import { YoutubeModalComponent } from '../modals/youtube-modal/youtube.modal';
+import { ShowCommentsModalComponent } from '../modals/show-comments-modal/show.comments.modal';
+import { CommentModalComponent } from '../modals/comment-modal/comment.modal';
 
 @Component({
   selector: 'app-detail',
@@ -135,6 +137,50 @@ export class DetailPage implements OnInit {
     this.moviesService.editMovie(this.moviesQuery.getActive()).subscribe(movie => {
       console.log('movie', movie);
     });
+  }
+
+  async presentCommentModal() {
+    console.log('DetailsPage::presentCommentModal');
+
+    const componentProps = { modalProps: { title: 'Comment', movie: this.moviesQuery.getActive()}};
+
+    const modal = await this.modalCtrl.create({
+      component: CommentModalComponent,
+      componentProps: componentProps
+    });
+    await modal.present();
+
+    const {data} = await modal.onWillDismiss();
+    if (data) {
+      console.log('data', data);
+    }
+  }
+
+  onClickComment() {
+    console.log('DetailsPage::onClickComment');
+    this.presentCommentModal();
+  }
+
+  async presentShowCommentsModal() {
+    console.log('DetailsPage::presentShowCommentsModal');
+
+    const componentProps = { modalProps: { title: 'Comments', movie: this.moviesQuery.getActive()}};
+
+    const modal = await this.modalCtrl.create({
+      component: ShowCommentsModalComponent,
+      componentProps: componentProps
+    });
+    await modal.present();
+
+    const {data} = await modal.onWillDismiss();
+    if (data) {
+      console.log('data', data);
+    }
+  }
+
+  onClickShowComment() {
+    console.log('DetailsPage::onClickShowComment');
+    this.presentShowCommentsModal();
   }
 
 }
