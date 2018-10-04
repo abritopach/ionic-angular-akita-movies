@@ -17,6 +17,9 @@ import { FavoritesMoviesModalComponent } from '../modals/favorites-movies-modal/
 
 import {default as iziToast, IziToastSettings} from 'izitoast';
 
+import { FormControl } from '@angular/forms';
+import { debounceTime } from 'rxjs/operators';
+
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
@@ -48,9 +51,32 @@ export class HomePage implements OnInit {
   @ViewChild('infiniteScroll') infiniteScroll: InfiniteScroll;
   @ViewChild(Content) content: Content;
 
+  searchControl: FormControl;
+  searching: Boolean = false;
+
   constructor(private moviesStore: MoviesStore, private moviesQuery: MoviesQuery, private moviesService: MoviesService,
               private router: Router, private modalCtrl: ModalController, private popoverCtrl: PopoverController) {
     console.log('HomePage::constructor() | method called');
+    this.searchControl = new FormControl();
+  }
+
+  ionViewWillEnter() {
+    console.log('ionViewWillEnter');
+    this.searchControl.valueChanges.pipe(debounceTime(700)).subscribe(search => {
+      // console.log('this.searchControl.valueChanges', search);
+      this.searching = false;
+      if (search === '') {
+        this.start = 0;
+        this.end = 20;
+        this.fetchMovies(this.start, this.end);
+      } else {
+        // this.store.dispatch(new SearchMovies({queryText: search}));
+        this.moviesService.searchMovies(search).subscribe(movies => {
+          console.log('movies', movies);
+        });
+      }
+    });
+
   }
 
   ngOnInit() {
@@ -59,6 +85,15 @@ export class HomePage implements OnInit {
     this.start = 0;
     this.end = 20;
     this.fetchMovies(this.start, 20);
+  }
+
+  searchMovies(ev: any) {
+    console.log('HomePage::searchMovies() | method called', ev.target.value);
+    this.searching = true;
+  }
+
+  cancelSearch(ev: any) {
+    console.log('HomePage::cancelSearch | method called');
   }
 
   fetchMovies(start: number, end: number) {
