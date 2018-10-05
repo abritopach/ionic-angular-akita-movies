@@ -142,7 +142,7 @@ export class DetailPage implements OnInit {
   async presentCommentModal() {
     console.log('DetailsPage::presentCommentModal');
 
-    const componentProps = { modalProps: { title: 'Comment', movie: this.moviesQuery.getActive()}};
+    const componentProps = { modalProps: { title: 'Comment'}};
 
     const modal = await this.modalCtrl.create({
       component: CommentModalComponent,

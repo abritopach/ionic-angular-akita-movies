@@ -5,6 +5,11 @@ import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms'
 
 import { MoviesService } from '../../services/movies.service';
 
+import { MoviesQuery } from '../../state/movie.query';
+import { MoviesStore } from '../../state/movie.store';
+
+import {default as iziToast, IziToastSettings} from 'izitoast';
+
 @Component({
   selector: 'app-comment-modal',
   templateUrl: 'comment.modal.html',
@@ -18,9 +23,21 @@ export class CommentModalComponent implements OnInit {
   modal: any = {
     title: '',
   };
+  defaultIziToastSettings: IziToastSettings = {
+    color: 'green',
+    title: '',
+    icon: 'ico-success',
+    message: '',
+    position: 'bottomLeft',
+    transitionIn: 'flipInX',
+    transitionOut: 'flipOutX',
+    image: 'assets/avatar.png',
+    imageWidth: 70,
+    layout: 2,
+  };
 
   constructor(private modalCtrl: ModalController, private formBuilder: FormBuilder, private navParams: NavParams,
-              private moviesService: MoviesService) {
+              private moviesService: MoviesService, private moviesQuery: MoviesQuery, private moviesStore: MoviesStore) {
     this.createForm();
   }
 
@@ -34,7 +51,6 @@ export class CommentModalComponent implements OnInit {
 
   ngOnInit() {
     this.modal = { ...this.navParams.data.modalProps};
-    console.log(this.modal);
   }
 
   dismiss() {
@@ -46,30 +62,40 @@ export class CommentModalComponent implements OnInit {
 
   commentFormSubmit() {
     console.log('CommentModalComponent::commentFormSubmit | method called');
-    // console.log(this.modal.movie);
     // console.log(this.commentForm.value);
-    console.log(this.commentForm.value.rating);
+
     let comments;
-    if (typeof this.modal.movie.comments === 'undefined') {
+    if (typeof this.moviesQuery.getActive().comments === 'undefined') {
       comments = [];
     } else {
-      comments = this.modal.movie.comments;
+      comments = this.moviesQuery.getActive().comments;
     }
 
-    if (typeof this.modal.movie.rate === 'undefined') {
-      this.modal.movie.rate = this.commentForm.value.rating;
-      this.modal.movie.numVotes = 1;
+    if (typeof this.moviesQuery.getActive().rate === 'undefined') {
+
+      this.moviesStore.update(this.moviesQuery.getActive().id, {
+        rate: this.commentForm.value.rating,
+        numVotes: 1
+      });
+
     } else {
-      this.modal.movie.numVotes += 1;
-      this.modal.movie.rate = (this.modal.movie.rate + this.commentForm.value.rating) / this.modal.movie.numVotes;
+
+      this.moviesStore.update(this.moviesQuery.getActive().id, {
+        rate: (this.moviesQuery.getActive().rate + this.commentForm.value.rating) / this.moviesQuery.getActive().numVotes,
+        numVotes: this.moviesQuery.getActive().numVotes + 1
+      });
     }
 
-    // console.log('comments', comments);
-    comments.push(this.commentForm.value.comment);
-    this.modal.movie.comments = comments;
-    // this.store.dispatch(new EditMovie(this.modal.movie));
-    this.moviesService.editMovie(this.modal.movie).subscribe(movie => {
+    comments = [...comments, this.commentForm.value.comment];
+    this.moviesStore.update(this.moviesQuery.getActive().id, {
+      comments: comments
+    });
+
+    this.moviesService.editMovie(this.moviesQuery.getActive()).subscribe(movie => {
       console.log('movie', movie);
+      this.dismiss();
+      const newSettings: IziToastSettings = {title: 'Add comment', message: 'Comment added.', position: 'bottomLeft'};
+      iziToast.success({...this.defaultIziToastSettings, ...newSettings});
     });
   }
 

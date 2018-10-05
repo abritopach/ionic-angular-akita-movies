@@ -14,6 +14,7 @@ export interface Movie {
     likes: number | 0;
     rate: number | 0;
     numVotes: number | 0;
+    comments: string[] | null;
 }
 ​
 export function createMovie({
