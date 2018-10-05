@@ -1,3 +1,4 @@
+import { Genre } from './../models/movie.model';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
@@ -14,6 +15,8 @@ import { NgSelectModule } from '@ng-select/ng-select';
 
 import { StarRatingModule } from 'angular-star-rating';
 
+import { GenreCarouselComponent } from '../components/genre-carousel/genre-carousel.component';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -29,7 +32,7 @@ import { StarRatingModule } from 'angular-star-rating';
     ]),
     StarRatingModule.forRoot()
   ],
-  declarations: [HomePage, MovieModalComponent, FilterMoviePopoverComponent, FavoritesMoviesModalComponent],
-  entryComponents: [MovieModalComponent, FilterMoviePopoverComponent, FavoritesMoviesModalComponent]
+  declarations: [HomePage, MovieModalComponent, FilterMoviePopoverComponent, FavoritesMoviesModalComponent, GenreCarouselComponent],
+  entryComponents: [MovieModalComponent, FilterMoviePopoverComponent, FavoritesMoviesModalComponent, GenreCarouselComponent]
 })
 export class HomePageModule {}

@@ -38,17 +38,14 @@
       <h2>Sample project that shows how to build a Movies Catalog APP with Angular, Ionic 4, Capacitor and Akita (State Management).</h2>
   </ion-item>
 
-  <!--<app-genre-carousel></app-genre-carousel>-->
+  <app-genre-carousel></app-genre-carousel>
 
   <ion-item *ngIf="movies$ | async; let movies">
     <ion-badge item-end slot="end">Results {{ movies.length }}</ion-badge>
   </ion-item>
 
   <!-- Movies List View. -->
-  <!--<ion-list *ngIf="!showSkeleton">-->
     <ion-list *ngIf="iconView === 'apps'">
-    <!--<ion-item *ngFor="let movie of movies$ | async" detail="true" tappable routerLink="/detail/{{ movie.title }}">-->
-    <!--<ion-item-sliding *ngFor="let movie of movies; let i = index">-->
     <ion-item-sliding #slidingItem *ngFor="let movie of movies$ | async; let i = index">
       <ion-item tappable (click)="viewMovieDetails(movie)">
       <ion-thumbnail slot="start">
