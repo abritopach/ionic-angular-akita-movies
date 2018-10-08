@@ -41,7 +41,17 @@ export class FavoritesMoviesModalComponent implements OnInit {
 
   deleteFavoriteMovie(movie: Movie) {
     console.log('FavoritesMoviesModalComponent::deleteFavoriteMovie() | method called');
-    // this.modal.favoritesMovies = this.modal.favoritesMovies.filter(m => m.title !== movie.title);
+    this.modal.favoritesMovies = this.modal.favoritesMovies.filter(m => m.title !== movie.title);
+    let favorites;
+    if (localStorage.getItem('favorites') !== null) {
+      favorites = JSON.parse(localStorage.getItem('favorites'));
+    }
+
+    favorites = favorites.filter(item => {
+      return item.title !== movie.title;
+    });
+
+    localStorage.setItem('favorites', JSON.stringify(favorites));
   }
 
   deleteAll() {
