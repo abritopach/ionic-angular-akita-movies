@@ -111,14 +111,25 @@ export class DetailPage implements OnInit {
 
   onClickFavorite() {
     console.log('DetailsPage::onClickFavorite | method called');
-    const newSettings: IziToastSettings = {title: 'Favorite movie', message: 'Favorite Movie added.', position: 'bottomLeft'};
-    iziToast.success({...this.defaultIziToastSettings, ...newSettings});
     let favorites = [];
     if (localStorage.getItem('favorites') !== null) {
       favorites = JSON.parse(localStorage.getItem('favorites'));
     }
-    favorites.push(this.moviesQuery.getActive());
-    localStorage.setItem('favorites', JSON.stringify(favorites));
+
+    const exist = favorites.filter(item => {
+      return item.title === this.moviesQuery.getActive().title;
+    });
+
+    if (exist.length === 0) {
+      favorites.push(this.moviesQuery.getActive());
+      localStorage.setItem('favorites', JSON.stringify(favorites));
+      const newSettings: IziToastSettings = {title: 'Favorite movie', message: 'Favorite Movie added.', position: 'bottomLeft'};
+      iziToast.success({...this.defaultIziToastSettings, ...newSettings});
+    } else {
+      const newSettings: IziToastSettings = {title: 'Favorite movie', message: 'The movie has already been added.', position: 'bottomLeft',
+      color: 'red', icon: 'ico-error'};
+      iziToast.show({...this.defaultIziToastSettings, ...newSettings});
+    }
   }
 
   onClickLike() {
