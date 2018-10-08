@@ -64,31 +64,24 @@ export class CommentModalComponent implements OnInit {
     console.log('CommentModalComponent::commentFormSubmit | method called');
     // console.log(this.commentForm.value);
 
-    let comments;
-    if (typeof this.moviesQuery.getActive().comments === 'undefined') {
-      comments = [];
-    } else {
+    let comments = [];
+    let numVotes = 1;
+    let rate = this.commentForm.value.rating;
+    if (typeof this.moviesQuery.getActive().comments !== 'undefined') {
       comments = this.moviesQuery.getActive().comments;
     }
 
-    if (typeof this.moviesQuery.getActive().rate === 'undefined') {
+    if (typeof this.moviesQuery.getActive().rate !== 'undefined') {
+      numVotes = this.moviesQuery.getActive().numVotes + 1;
+      rate = (this.moviesQuery.getActive().rate + rate) / numVotes;
 
-      this.moviesStore.update(this.moviesQuery.getActive().id, {
-        rate: this.commentForm.value.rating,
-        numVotes: 1
-      });
-
-    } else {
-
-      this.moviesStore.update(this.moviesQuery.getActive().id, {
-        rate: (this.moviesQuery.getActive().rate + this.commentForm.value.rating) / this.moviesQuery.getActive().numVotes,
-        numVotes: this.moviesQuery.getActive().numVotes + 1
-      });
     }
 
     comments = [...comments, this.commentForm.value.comment];
     this.moviesStore.update(this.moviesQuery.getActive().id, {
-      comments: comments
+      comments: comments,
+      rate: rate.toFixed(1),
+      numVotes: numVotes
     });
 
     this.moviesService.editMovie(this.moviesQuery.getActive()).subscribe(movie => {
